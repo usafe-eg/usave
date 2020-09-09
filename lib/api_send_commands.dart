@@ -78,6 +78,41 @@ class SendApis extends StatelessWidget {
         return false;
     }
     }
+
+
+    Future<bool> startEndTrip(String message) async{
+      try {
+        final http.Response response= await http.post(url, body: json.encode(message),
+          headers: {'Content-Type': 'application/json'},);
+        if(response.statusCode==200 && response.statusCode!=201)
+        {
+          return false;
+        }
+        final Map<String, dynamic> responseData = json.decode(response.body);
+        return true;
+      }
+      catch(error){
+        return false;
+      }
+
+    }
+
+
+    Future locationApi(String stationId,double lng,double lat)async
+    {
+      final Map<String,dynamic> locationData ={
+        'stationId':stationId,///from backend
+        'lat':lat,
+        'lng':lng,
+      };
+      final http.Response response= await http.post(url, body: json.encode(locationData),
+        headers: {'Content-Type': 'application/json'},);
+      if(response.statusCode==200)
+        {
+          final Map<String, dynamic> responseData = json.decode(response.body);
+        }
+    }
+
     return Container();
   }
 }
