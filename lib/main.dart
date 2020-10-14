@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:usave/notfications.dart';
-import 'package:usave/path_provider.dart';
-import 'package:usave/pages/login_page.dart';
+import 'package:usave/pages/dashboard_page.dart';
 
 void main() => runApp(MyApp());
 
@@ -14,7 +12,7 @@ class MyApp extends StatelessWidget {
          
         primarySwatch: Colors.blue,
       ),
-      home: NotificationPage(),
+      home: DashboardPage(),
     );
   }
 }
