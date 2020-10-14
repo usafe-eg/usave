@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:usave/pages/dashboard_page.dart';
+import 'package:usave/pages/scan_page.dart';
 
 void main() => runApp(MyApp());
 
@@ -12,7 +13,7 @@ class MyApp extends StatelessWidget {
          
         primarySwatch: Colors.blue,
       ),
-      home: DashboardPage(),
+      home: ScanStudentPage(),
     );
   }
 }
