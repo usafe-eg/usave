@@ -5,8 +5,6 @@ import 'package:usave/components/mainbutton.dart';
 
 const flashOn = 'FLASH ON';
 const flashOff = 'FLASH OFF';
-const frontCamera = 'FRONT CAMERA';
-const backCamera = 'BACK CAMERA';
 
 class ScanStudentPage  extends StatefulWidget {
 
@@ -19,7 +17,6 @@ class _ScanStudentPageState extends State<ScanStudentPage> {
 
   var qrText = "";
   var flashState = flashOn;
-  var cameraState = frontCamera;
   QRViewController controller;
 
   @override
