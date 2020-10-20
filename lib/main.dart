@@ -3,6 +3,7 @@ import 'package:usave/pages/dashboard_page.dart';
 import 'package:usave/pages/scan_page.dart';
 import 'package:usave/pages/members_page.dart';
 import 'package:usave/pages/stations_page.dart';
+import 'package:usave/pages/trip_page.dart';
 
 void main() => runApp(MyApp());
 
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
          
         primarySwatch: Colors.blue,
       ),
-      home: BusMembersPage(),
+      home: TripPage(),
     );
   }
 }
