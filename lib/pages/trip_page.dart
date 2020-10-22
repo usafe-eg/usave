@@ -1,16 +1,16 @@
+import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:usave/utilities/constants.dart';
 import 'package:usave/components/mainbutton.dart';
 import 'package:usave/components/trip_page_station.dart';
+import 'package:usave/components/trip_page_detail.dart';
 
 class TripPage extends StatefulWidget {
   @override
   _TripPageState createState() => _TripPageState();
 }
-
 class _TripPageState extends State<TripPage> {
-
 
   List<Map<String,dynamic>> stationsDetails=[
     {'station':'Abbas Al Akad','color':Colors.blueGrey,'numberOfStudents':2,'stationNumber':1},
@@ -29,10 +29,20 @@ class _TripPageState extends State<TripPage> {
     }, child: Icon(Icons.settings_overscan), backgroundColor: mainColor,
         ),
       appBar: AppBar(
-        backgroundColor: mainColor,
-        title: Padding(padding:EdgeInsets.only(top: 30,left: 20),
-            child: Text('Trip Page',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.white,fontSize: 20),)),
-      ),
+        actions: <Widget>[
+      Container(
+        width: MediaQuery.of(context).size.width,
+      decoration: BoxDecoration(
+          image: DecorationImage(
+          image: AssetImage("assets/images/slice-02.png"),
+          fit: BoxFit.cover,
+          )),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Text('Trip Page',textAlign: TextAlign.start,
+            style: TextStyle(fontWeight: FontWeight.bold,color: Colors.white,fontSize:25,)),
+      ))],
+        backgroundColor: mainColor,),
       body: Column(
         children: <Widget>[
           Card(
@@ -43,30 +53,10 @@ class _TripPageState extends State<TripPage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
-                  Column(
-                    children: <Widget>[
-                      Text('Members'),
-                      Text('30')
-                    ],
-                  ),
-                  Column(
-                    children: <Widget>[
-                      Text('In Bus'),
-                      Text('20')
-                    ],
-                  ),
-                  Column(
-                    children: <Widget>[
-                      Text('Absent'),
-                      Text('5')
-                    ],
-                  ),
-                  Column(
-                    children: <Widget>[
-                      Text('Waiting'),
-                      Text('5')
-                    ],
-                  )
+                  TripPageDetail('Members', 30),
+                  TripPageDetail('In Bus', 20),
+                  TripPageDetail('Absent', 5),
+                  TripPageDetail('Waiting', 5),
                 ],
               ),
             ),
