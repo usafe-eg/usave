@@ -5,13 +5,21 @@ import 'package:usave/utilities/constants.dart';
 import 'package:usave/components/mainbutton.dart';
 import 'package:usave/components/trip_page_station.dart';
 import 'package:usave/components/trip_page_detail.dart';
+import 'package:usave/components/pages_header.dart';
+import 'package:usave/pages/scan_page.dart';
 
 class TripPage extends StatefulWidget {
+  static const String id = 'TripPage';
+
   @override
   _TripPageState createState() => _TripPageState();
 }
 class _TripPageState extends State<TripPage> {
 
+  void _endTrip()
+  {
+    Navigator.pop(context);
+  }
   List<Map<String,dynamic>> stationsDetails=[
     {'station':'Abbas Al Akad','color':Colors.blueGrey,'numberOfStudents':2,'stationNumber':1},
     {'station':'Makram Ebeid','color':Colors.blueGrey,'numberOfStudents':3,'stationNumber':2},
@@ -25,56 +33,58 @@ class _TripPageState extends State<TripPage> {
     return Scaffold(
         floatingActionButton: FloatingActionButton(
         onPressed: () {
+          Navigator.pushNamed(context, ScanStudentPage.id);
       // Add your onPressed code here!
     }, child: Icon(Icons.settings_overscan), backgroundColor: mainColor,
         ),
       appBar: AppBar(
         actions: <Widget>[
-      Container(
-        width: MediaQuery.of(context).size.width,
-      decoration: BoxDecoration(
-          image: DecorationImage(
-          image: AssetImage("assets/images/slice-02.png"),
-          fit: BoxFit.cover,
-          )),
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Text('Trip Page',textAlign: TextAlign.start,
-            style: TextStyle(fontWeight: FontWeight.bold,color: Colors.white,fontSize:25,)),
-      ))],
+      PagesHeader('Trip Page')],
         backgroundColor: mainColor,),
       body: Column(
         children: <Widget>[
-          Card(
-            margin: EdgeInsets.all(5),
-            elevation: 8,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  TripPageDetail('Members', 30),
-                  TripPageDetail('In Bus', 20),
-                  TripPageDetail('Absent', 5),
-                  TripPageDetail('Waiting', 5),
-                ],
+          GestureDetector(
+            onTap: (){
+              Navigator.pushNamed(context, ScanStudentPage.id);
+            },
+            child: Card(
+              margin: EdgeInsets.all(5),
+              elevation: 8,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    TripPageDetail('Members', 30),
+                    TripPageDetail('In Bus', 20),
+                    TripPageDetail('Absent', 5),
+                    TripPageDetail('Waiting', 5),
+                  ],
+                ),
               ),
             ),
           ),
         Expanded(
           flex: 6,
-          child: ListView.builder(itemCount: stationsDetails.length,
-              itemBuilder: (context,index){
-                return TripPageStation(color: stationsDetails[index]['color'],station:stationsDetails[index]['station'],
-                stationNumber: stationsDetails[index]['stationNumber'],numberOfStudents:stationsDetails[index]['numberOfStudents'] ,);
-          }),
+          child: Padding(
+            padding: const EdgeInsets.only(top:40.0),
+            child: ListView.builder(itemCount: stationsDetails.length,
+                itemBuilder: (context,index){
+                  return TripPageStation(color: stationsDetails[index]['color'],
+                    station:stationsDetails[index]['station'],
+                  stationNumber: stationsDetails[index]['stationNumber'],
+                    numberOfStudents:stationsDetails[index]['numberOfStudents'] ,);
+            }),
+          ),
         ),
           Expanded(
-            flex: 2,
-              child: MainButton('END TRIP',Colors.grey)),
+            flex: 1,
+              child: MainButton('END TRIP',Colors.grey,220,_endTrip)),
         ],
       ),
     );
   }
+
+
 }
 

@@ -12,10 +12,11 @@ class TripPageStation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Stack(
+      alignment: AlignmentDirectional.bottomStart,
         children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(left:60.0),
+          Positioned(
+            left: 120,
             child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -39,7 +40,8 @@ class TripPageStation extends StatelessWidget {
                   )
                 ],
               )
-            ],),),
+            ],),
+          ),
           Container(
             width: 2,
             height: 50,

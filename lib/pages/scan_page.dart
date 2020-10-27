@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:usave/utilities/constants.dart';
 import 'package:usave/components/mainbutton.dart';
+import 'package:usave/components/pages_header.dart';
 
 const flashOn = 'FLASH ON';
 const flashOff = 'FLASH OFF';
 
 class ScanStudentPage  extends StatefulWidget {
+
+  static const String id = 'ScanStudentPage';
 
   @override
   _ScanStudentPageState createState() => _ScanStudentPageState();
@@ -19,14 +22,18 @@ class _ScanStudentPageState extends State<ScanStudentPage> {
   var flashState = flashOn;
   QRViewController controller;
 
+  void _endScanning()
+  {
+    Navigator.pop(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: mainColor,
-        title: Padding(padding:EdgeInsets.only(top: 30,left: 20),
-            child: Text('Scan Student Data',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.white,fontSize: 20),)),
-      ),
+      appBar:  AppBar(
+        actions: <Widget>[
+          PagesHeader('Scan Student Data')],
+        backgroundColor: mainColor,),
       body: Column(
         children: <Widget>[
 //                    IconButton(
@@ -60,7 +67,7 @@ class _ScanStudentPageState extends State<ScanStudentPage> {
               ),
             ),
           ),
-          MainButton('Cancel', Colors.grey),
+          MainButton('Cancel', Colors.grey,280,_endScanning),
         ],
       ),
     );

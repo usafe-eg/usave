@@ -16,7 +16,15 @@ class MyApp extends StatelessWidget {
          
         primarySwatch: Colors.blue,
       ),
-      home: TripPage(),
+      home: DashboardPage(),
+
+    routes: {
+      DashboardPage.id:(BuildContext context) =>DashboardPage(),
+      ScanStudentPage.id:(BuildContext context) =>ScanStudentPage(),
+      BusMembersPage.id:(BuildContext context) =>BusMembersPage(),
+      StationPage.id:(BuildContext context) =>StationPage(),
+      TripPage.id:(BuildContext context) =>TripPage(),
+    },
     );
   }
 }

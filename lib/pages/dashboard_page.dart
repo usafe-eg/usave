@@ -1,21 +1,41 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:usave/pages/trip_page.dart';
 import 'package:usave/utilities/constants.dart';
 import 'package:usave/components/mainbutton.dart';
+import 'package:usave/components/pages_header.dart';
+import 'package:usave/pages/stations_page.dart';
+import 'package:usave/pages/members_page.dart';
 
-class DashboardPage extends StatelessWidget {
+class DashboardPage extends StatefulWidget {
+  static const String id = 'DashboardPage';
+
+  @override
+  _DashboardPageState createState() => _DashboardPageState();
+}
+
+class _DashboardPageState extends State<DashboardPage> {
+  void _startTrip()
+  {
+    Navigator.pushNamed(context, TripPage.id);
+  }
+  void _navigateToBusMembers()
+  {
+    Navigator.pushNamed(context, BusMembersPage.id);
+  }
+  void _navigateToStations()
+  {
+    Navigator.pushNamed(context, StationPage.id);
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-          appBar: PreferredSize(
-            preferredSize: Size.fromHeight(90),
-            child: AppBar(
-              backgroundColor: mainColor,
-              title: Padding(padding:EdgeInsets.only(top: 30,left: 20),
-                  child: Text('Ahmed Yamany',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.white,fontSize: 20),)),
-            ),
-          ),
+          appBar: AppBar(
+            actions: <Widget>[
+              PagesHeader('Ahmed Yamany')],
+            backgroundColor: mainColor,),
         body: Container(
           color: Colors.grey[300],
           width: double.infinity,
@@ -49,9 +69,9 @@ class DashboardPage extends StatelessWidget {
                     padding: const EdgeInsets.only(bottom:20.0),
                     child: Text('Bus no. 123456',style: TextStyle(fontSize: 20),),
                   ),
-                  MainButton('START TRIP',mainColor),
-                  MainButton('BUS MEMBERS',greyColor),
-                  MainButton('STATIONS',greyColor),
+                  MainButton('START TRIP',mainColor,280,_startTrip),
+                  MainButton('BUS MEMBERS',greyColor,280,_navigateToBusMembers),
+                  MainButton('STATIONS',greyColor,280,_navigateToStations),
                 ],
               ),
             ),
