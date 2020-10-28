@@ -12,17 +12,21 @@ class MemberListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.symmetric(vertical: 8),
       child: Card(
         elevation: 6,
         color: Colors.white70,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        child: Stack(
           children: <Widget>[
             Container(color: color,height: 50,width: 10,),
-            Text(name),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
+            Positioned(
+              left: 30,
+                top: 15,
+                child: Text(name)
+            ),
+            Positioned(
+              top: 15,
+              left: 210,
               child: Row(
                 children: <Widget>[
                   Icon(Icons.location_on),

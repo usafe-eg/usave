@@ -10,22 +10,27 @@ class StationListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: EdgeInsets.symmetric(vertical: 8),
       child: Card(
         elevation: 6,
         color: Colors.white70,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        child: Stack(
           children: <Widget>[
             Container(color: color,height: 50,width: 10,),
-            Text(station),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: <Widget>[
-                  Icon(Icons.person),
-                  Text(numberOfStudents.toString())
-                ],
+            Positioned(
+              top:15,
+                left: 100,
+                child: Text(station)),
+            Positioned(
+              left: 280,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: <Widget>[
+                    Icon(Icons.person_outline),
+                    Text(numberOfStudents.toString())
+                  ],
+                ),
               ),
             )
           ],
