@@ -7,20 +7,21 @@ class TripPageStation extends StatelessWidget {
   final String station;
   final int stationNumber;
   final int numberOfStudents;
+  final int numberOfStations;
 
-  TripPageStation({this.color, this.station, this.stationNumber, this.numberOfStudents});
+  TripPageStation({this.color, this.station, this.stationNumber, this.numberOfStudents,this.numberOfStations});
 
   @override
   Widget build(BuildContext context) {
     return Stack(
-      alignment: AlignmentDirectional.bottomStart,
+      alignment: AlignmentDirectional.center,
         children: <Widget>[
           Positioned(
-            left: 120,
-            child: Row(
+            left: 148,
+            child:  Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Text('($stationNumber/6)',style: TextStyle(fontWeight: FontWeight.bold,color: color),),
+              Text('($stationNumber/$numberOfStations)',style: TextStyle(fontWeight: FontWeight.bold,color: color),),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Icon(Icons.brightness_1,size: 18,color: color),
@@ -32,6 +33,7 @@ class TripPageStation extends StatelessWidget {
                     padding: const EdgeInsets.only(top:20.0),
                     child: Text(station,style: TextStyle(fontWeight: FontWeight.bold,color: color),),
                   ),
+                  /////person and the number
                   Row(
                     children: <Widget>[
                       Icon(Icons.person_outline,color: color),

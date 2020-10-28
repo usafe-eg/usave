@@ -7,6 +7,7 @@ import 'package:usave/components/trip_page_station.dart';
 import 'package:usave/components/trip_page_detail.dart';
 import 'package:usave/components/pages_header.dart';
 import 'package:usave/pages/scan_page.dart';
+import 'package:usave/pages/trip_members_details_page.dart';
 
 class TripPage extends StatefulWidget {
   static const String id = 'TripPage';
@@ -23,10 +24,11 @@ class _TripPageState extends State<TripPage> {
   List<Map<String,dynamic>> stationsDetails=[
     {'station':'Abbas Al Akad','color':Colors.blueGrey,'numberOfStudents':2,'stationNumber':1},
     {'station':'Makram Ebeid','color':Colors.blueGrey,'numberOfStudents':3,'stationNumber':2},
-    {'station':'7th District','color':Colors.yellow[700],'numberOfStudents':1,'stationNumber':3},
-    {'station':'Station 4','color':Colors.black,'numberOfStudents':5,'stationNumber':4},
-    {'station':'Station 5','color':Colors.black,'numberOfStudents':2,'stationNumber':5},
-    {'station':'Final Station','color':Colors.black,'numberOfStudents':4,'stationNumber':6},];
+    {'station':'7th District','color':Colors.yellow[700],'numberOfStudents':4,'stationNumber':3},
+    {'station':'AinShams','color':Colors.black,'numberOfStudents':8,'stationNumber':4},
+    {'station':'Abbasya','color':Colors.black,'numberOfStudents':5,'stationNumber':5},
+    {'station':'Manshet ELBakry','color':Colors.black,'numberOfStudents':5,'stationNumber':6},
+    {'station':'Zeiton','color':Colors.black,'numberOfStudents':4,'stationNumber':7},];
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +47,7 @@ class _TripPageState extends State<TripPage> {
         children: <Widget>[
           GestureDetector(
             onTap: (){
-              Navigator.pushNamed(context, ScanStudentPage.id);
+              Navigator.pushNamed(context, TripMembersDetailsPage.id);
             },
             child: Card(
               margin: EdgeInsets.all(5),
@@ -73,7 +75,7 @@ class _TripPageState extends State<TripPage> {
                   return TripPageStation(color: stationsDetails[index]['color'],
                     station:stationsDetails[index]['station'],
                   stationNumber: stationsDetails[index]['stationNumber'],
-                    numberOfStudents:stationsDetails[index]['numberOfStudents'] ,);
+                    numberOfStudents:stationsDetails[index]['numberOfStudents'] ,numberOfStations: stationsDetails.length,);
             }),
           ),
         ),
