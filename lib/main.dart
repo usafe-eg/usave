@@ -5,6 +5,7 @@ import 'package:usave/pages/members_page.dart';
 import 'package:usave/pages/stations_page.dart';
 import 'package:usave/pages/trip_page.dart';
 import 'package:usave/pages/trip_members_details_page.dart';
+import 'package:usave/pages/login_page.dart';
 
 void main() => runApp(MyApp());
 
@@ -17,9 +18,10 @@ class MyApp extends StatelessWidget {
          
         primarySwatch: Colors.blue,
       ),
-      home: DashboardPage(),
+      home: LoginPage(),
 
     routes: {
+        LoginPage.id:(BuildContext context) => LoginPage(),
       DashboardPage.id:(BuildContext context) =>DashboardPage(),
       ScanStudentPage.id:(BuildContext context) =>ScanStudentPage(),
       BusMembersPage.id:(BuildContext context) =>BusMembersPage(),
