@@ -39,6 +39,7 @@ class _DashboardPageState extends State<DashboardPage> {
         body: Container(
           color: Colors.grey[300],
           width: double.infinity,
+          height: double.infinity,
           child: Column(
             children: <Widget>[
 //            Container(
