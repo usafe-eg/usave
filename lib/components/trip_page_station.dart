@@ -13,43 +13,41 @@ class TripPageStation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      alignment: AlignmentDirectional.center,
+    return Container(
+      height: 80,
+      width: 80,
+      child: Stack(
         children: <Widget>[
           Positioned(
-            left: 148,
-            child:  Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text('($stationNumber/$numberOfStations)',style: TextStyle(fontWeight: FontWeight.bold,color: color),),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Icon(Icons.brightness_1,size: 18,color: color),
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.only(top:20.0),
-                    child: Text(station,style: TextStyle(fontWeight: FontWeight.bold,color: color),),
-                  ),
-                  /////person and the number
-                  Row(
-                    children: <Widget>[
-                      Icon(Icons.person_outline,color: color),
-                      Text(numberOfStudents.toString(),style: TextStyle(fontWeight: FontWeight.bold,color: color),)
-                    ],
-                  )
-                ],
-              )
-            ],),
+              left: 120,
+              child: Text('($stationNumber/$numberOfStations)',style: TextStyle(fontWeight: FontWeight.bold,color: color),)),
+          Positioned(
+              left: 180,
+              child: Icon(Icons.brightness_1,size: 18,color: color)),
+          Positioned(
+              left: 220,
+              child: Text(station,style: TextStyle(fontWeight: FontWeight.bold,color: color),)),
+          Positioned(
+            left: 220,
+            top: 20,
+            child: Row(
+              children: <Widget>[
+                Icon(Icons.person_outline,color: color),
+                Text(numberOfStudents.toString(),style: TextStyle(fontWeight: FontWeight.bold,color: color),)
+                      ],
+                    ),
           ),
-          Container(
-            width: 2,
-            height: 50,
-            color: color,
+          Positioned(
+            top: 20,
+            left: 188,
+            child: Container(
+              width: 2,
+              height: 50,
+              color: color,
+            ),
           ),
         ],
-      );
+      ),
+    );
   }
 }
