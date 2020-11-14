@@ -19,10 +19,10 @@ class StationListItem extends StatelessWidget {
             Container(color: color,height: 50,width: 10,),
             Positioned(
               top:15,
-                left: 100,
+                left: 20,
                 child: Text(station)),
             Positioned(
-              left: 280,
+              left: 190,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Row(

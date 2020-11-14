@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:usave/utilities/constants.dart';
@@ -22,13 +21,13 @@ class _TripPageState extends State<TripPage> {
     Navigator.pop(context);
   }
   List<Map<String,dynamic>> stationsDetails=[
-    {'station':'Abbas Al Akad','color':Colors.blueGrey,'numberOfStudents':2,'stationNumber':1},
-    {'station':'Makram Ebeid','color':Colors.blueGrey,'numberOfStudents':3,'stationNumber':2},
-    {'station':'7th District','color':Colors.yellow[700],'numberOfStudents':4,'stationNumber':3},
-    {'station':'AinShams','color':Colors.black,'numberOfStudents':8,'stationNumber':4},
-    {'station':'Abbasya','color':Colors.black,'numberOfStudents':5,'stationNumber':5},
-    {'station':'Manshet ELBakry','color':Colors.black,'numberOfStudents':5,'stationNumber':6},
-    {'station':'Zeiton','color':Colors.black,'numberOfStudents':4,'stationNumber':7},];
+    {'station':'Abbas Al Akad','color':Colors.blueGrey,'numberOfStudents':2},
+    {'station':'Makram Ebeid','color':Colors.blueGrey,'numberOfStudents':3},
+    {'station':'7th District','color':Colors.yellow[700],'numberOfStudents':4},
+    {'station':'AinShams','color':Colors.black,'numberOfStudents':8},
+    {'station':'Abbasya','color':Colors.black,'numberOfStudents':5},
+    {'station':'Manshet ELBakry','color':Colors.black,'numberOfStudents':5},
+    {'station':'Zeiton','color':Colors.black,'numberOfStudents':4},];
 
   @override
   Widget build(BuildContext context) {
@@ -45,13 +44,16 @@ class _TripPageState extends State<TripPage> {
         backgroundColor: mainColor,),
       body: Column(
         children: <Widget>[
-          GestureDetector(
-            onTap: (){
-              Navigator.pushNamed(context, TripMembersDetailsPage.id);
-            },
-            child: Card(
-              margin: EdgeInsets.all(5),
-              elevation: 8,
+          Card(
+            borderOnForeground: true,
+            margin: EdgeInsets.all(5),
+            elevation: 8,
+            child: InkWell(
+              highlightColor: mainColor,
+              splashColor: mainColor,
+              onTap: (){
+                Navigator.pushNamed(context, TripMembersDetailsPage.id);
+              },
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Row(
@@ -74,14 +76,14 @@ class _TripPageState extends State<TripPage> {
                 itemBuilder: (context,index){
                   return TripPageStation(color: stationsDetails[index]['color'],
                     station:stationsDetails[index]['station'],
-                  stationNumber: stationsDetails[index]['stationNumber'],
+                  stationNumber: index+1,
                     numberOfStudents:stationsDetails[index]['numberOfStudents'] ,numberOfStations: stationsDetails.length,);
             }),
           ),
         ),
           Expanded(
             flex: 1,
-              child: MainButton('END TRIP',Colors.grey,220,_endTrip)),
+              child: MainButton('END TRIP',Colors.grey,170,_endTrip)),
         ],
       ),
     );

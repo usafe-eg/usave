@@ -55,7 +55,7 @@ class _BusMembersPageState extends State<BusMembersPage> {
       body: Padding(padding: EdgeInsets.all(8),
       child: ListView.builder(itemCount: busMembers.length,
           itemBuilder: (context,index){
-          return MemberListItem(name: busMembers[index]['name'],color: greyColor,station: busMembers[index]['station'],)
+          return MemberListItem(name: busMembers[index]['name'],color: Colors.orange,station: busMembers[index]['station'],)
         ;}),
       ),
     );

@@ -1,8 +1,11 @@
+import 'package:audioplayers/audioplayers.dart';
+import 'package:audioplayers/audio_cache.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:usave/utilities/constants.dart';
 import 'package:usave/components/mainbutton.dart';
 import 'package:usave/components/pages_header.dart';
+import 'package:toast/toast.dart';
 
 const flashOn = 'FLASH ON';
 const flashOff = 'FLASH OFF';
@@ -17,7 +20,6 @@ class ScanStudentPage  extends StatefulWidget {
 
 class _ScanStudentPageState extends State<ScanStudentPage> {
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
-
   var qrText = "";
   var flashState = flashOn;
   QRViewController controller;
@@ -26,7 +28,9 @@ class _ScanStudentPageState extends State<ScanStudentPage> {
   {
     Navigator.pop(context);
   }
-
+  void showToast(String msg, {int duration, int gravity}) {
+    Toast.show(msg, context, duration: duration, gravity: gravity);
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -78,7 +82,10 @@ class _ScanStudentPageState extends State<ScanStudentPage> {
     controller.scannedDataStream.listen((scanData) {
       setState(() {
         qrText = scanData;
+        showToast(qrText, duration: Toast.LENGTH_LONG,gravity: Toast.BOTTOM);
       });
+      final play =AudioCache();
+      play.play('audios/peepSound.wav');
     });
   }
   bool _isFlashOn(String current) {

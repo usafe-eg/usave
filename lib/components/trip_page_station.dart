@@ -23,7 +23,10 @@ class TripPageStation extends StatelessWidget {
               child: Text('($stationNumber/$numberOfStations)',style: TextStyle(fontWeight: FontWeight.bold,color: color),)),
           Positioned(
               left: 180,
-              child: Icon(Icons.brightness_1,size: 18,color: color)),
+              child:
+              stationNumber==1||stationNumber==numberOfStations?Icon(Icons.stop,size: 18,color: color)
+                  :Icon(Icons.brightness_1,size: 18,color: color)
+          ),
           Positioned(
               left: 220,
               child: Text(station,style: TextStyle(fontWeight: FontWeight.bold,color: color),)),
@@ -40,11 +43,10 @@ class TripPageStation extends StatelessWidget {
           Positioned(
             top: 20,
             left: 188,
-            child: Container(
+            child:stationNumber!=numberOfStations? Container(
               width: 2,
               height: 50,
-              color: color,
-            ),
+              color: color,):Container(),
           ),
         ],
       ),

@@ -33,7 +33,7 @@ class _StationPageState extends State<StationPage> {
         child: ListView.builder(itemCount: stations.length,
             itemBuilder: (context,index){
               return StationListItem(numberOfStudents: stations[index]['numbersOfStudents'],
-                color:greyColor,station: stations[index]['station'],)
+                color:Colors.orange,station: stations[index]['station'],)
               ;}),
       ),
     );

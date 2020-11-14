@@ -20,13 +20,13 @@ class MemberListItem extends StatelessWidget {
           children: <Widget>[
             Container(color: color,height: 50,width: 10,),
             Positioned(
-              left: 30,
+              left: 20,
                 top: 15,
                 child: Text(name)
             ),
             Positioned(
               top: 15,
-              left: 210,
+              left: 165,
               child: Row(
                 children: <Widget>[
                   Icon(Icons.location_on),
