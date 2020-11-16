@@ -71,7 +71,7 @@ class _ScanStudentPageState extends State<ScanStudentPage> {
               ),
             ),
           ),
-          MainButton('Cancel', Colors.grey,280,_endScanning),
+          MainButton('Cancel',mainColor,280,_endScanning),
         ],
       ),
     );

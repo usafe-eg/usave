@@ -83,7 +83,7 @@ class _TripPageState extends State<TripPage> {
         ),
           Expanded(
             flex: 1,
-              child: MainButton('END TRIP',Colors.grey,170,_endTrip)),
+              child: MainButton('END TRIP',mainColor,170,_endTrip)),
         ],
       ),
     );
