@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
          
         primarySwatch: Colors.blue,
       ),
-      home: StationRegEditPage(),
+      home: LoginPage(),
 
     routes: {
         LoginPage.id:(BuildContext context) => LoginPage(),
@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
       StationPage.id:(BuildContext context) =>StationPage(),
       TripPage.id:(BuildContext context) =>TripPage(),
       TripMembersDetailsPage.id:(BuildContext context) =>TripMembersDetailsPage(),
-      StationRegEditPage.id:(BuildContext context) =>StationRegEditPage(),
+      StationRegEditPage.id:(BuildContext context) =>StationRegEditPage(stationName:null),
     },
     );
   }

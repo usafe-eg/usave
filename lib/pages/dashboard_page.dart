@@ -6,6 +6,7 @@ import 'package:usave/components/mainbutton.dart';
 import 'package:usave/components/pages_header.dart';
 import 'package:usave/pages/stations_page.dart';
 import 'package:usave/pages/members_page.dart';
+import 'package:usave/models/station_mode.dart';
 
 class DashboardPage extends StatefulWidget {
   static const String id = 'DashboardPage';
@@ -21,13 +22,17 @@ class _DashboardPageState extends State<DashboardPage> {
   }
   void _navigateToBusMembers()
   {
-    Navigator.pushNamed(context, BusMembersPage.id);
+    setState(() {
+      _stationMode=StationMode.Normal;
+      Navigator.pushNamed(context, BusMembersPage.id);
+    });
   }
   void _navigateToStations()
   {
     Navigator.pushNamed(context, StationPage.id);
   }
 
+  StationMode _stationMode;
   @override
   Widget build(BuildContext context) {
     return Scaffold(

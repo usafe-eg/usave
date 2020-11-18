@@ -1,0 +1,5 @@
+enum StationMode
+{
+  Edit,
+  Normal
+}

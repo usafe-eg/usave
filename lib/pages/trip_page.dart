@@ -7,6 +7,7 @@ import 'package:usave/components/trip_page_detail.dart';
 import 'package:usave/components/pages_header.dart';
 import 'package:usave/pages/scan_page.dart';
 import 'package:usave/pages/trip_members_details_page.dart';
+import 'package:usave/models/station_mode.dart';
 
 class TripPage extends StatefulWidget {
   static const String id = 'TripPage';
@@ -15,6 +16,7 @@ class TripPage extends StatefulWidget {
   _TripPageState createState() => _TripPageState();
 }
 class _TripPageState extends State<TripPage> {
+  StationMode _stationMode;
 
   void _endTrip()
   {
@@ -52,7 +54,11 @@ class _TripPageState extends State<TripPage> {
               highlightColor: mainColor,
               splashColor: mainColor,
               onTap: (){
-                Navigator.pushNamed(context, TripMembersDetailsPage.id);
+                setState(() {
+                  _stationMode=StationMode.Normal;
+                  Navigator.pushNamed(context, TripMembersDetailsPage.id);
+                });
+
               },
               child: Padding(
                 padding: const EdgeInsets.all(8.0),

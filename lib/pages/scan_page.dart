@@ -80,12 +80,15 @@ class _ScanStudentPageState extends State<ScanStudentPage> {
   void _onQRViewCreated(QRViewController controller) {
     this.controller = controller;
     controller.scannedDataStream.listen((scanData) {
-      setState(() {
-        qrText = scanData;
-        showToast(qrText, duration: Toast.LENGTH_LONG,gravity: Toast.BOTTOM);
-      });
-      final play =AudioCache();
-      play.play('audios/peepSound.wav');
+      if(scanData!=qrText)
+        {
+          setState(() {
+            qrText = scanData;
+            showToast(qrText, duration: Toast.LENGTH_LONG,gravity: Toast.BOTTOM);
+          });
+          final play =AudioCache();
+          play.play('audios/peepSound.wav');
+        }
     });
   }
   bool _isFlashOn(String current) {
