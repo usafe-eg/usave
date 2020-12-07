@@ -6,10 +6,10 @@ import 'package:usave/models/station_mode.dart';
 class StationListItem extends StatefulWidget {
 
   final Color color;
-  final int numberOfStudents;
-  final String station;
+  final int numOfStudents;
+  final String name;
 
-  StationListItem({this.color,this.station,this.numberOfStudents});
+  StationListItem({this.color,this.name,this.numOfStudents});
 
   @override
   _StationListItemState createState() => _StationListItemState();
@@ -31,7 +31,7 @@ class _StationListItemState extends State<StationListItem> {
             _stationMode=StationMode.Edit;
               Navigator.of(context)
                .push(MaterialPageRoute(builder: (BuildContext context) {
-             return StationRegEditPage(stationName: widget.station,);
+             return StationRegEditPage(stationName: widget.name,);
            })
            );
           });
@@ -45,7 +45,7 @@ class _StationListItemState extends State<StationListItem> {
               Positioned(
                 top:15,
                   left: 20,
-                  child: Text(widget.station)),
+                  child: Text(widget.name)),
               Positioned(
                 left: 190,
                 child: Padding(
@@ -53,7 +53,7 @@ class _StationListItemState extends State<StationListItem> {
                   child: Row(
                     children: <Widget>[
                       Icon(Icons.person_outline),
-                      Text(widget.numberOfStudents.toString())
+                      Text(widget.numOfStudents.toString())
                     ],
                   ),
                 ),

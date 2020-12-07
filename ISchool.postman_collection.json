@@ -1,0 +1,192 @@
+{
+	"info": {
+		"_postman_id": "48681040-c3fa-4838-8552-ee2cf32a1a1f",
+		"name": "ISchool",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"supervisoruser@gmail.com\",\r\n    \"password\":\"123@@##Mm\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://sweefy-001-site5.dtempurl.com/api/users/login",
+							"protocol": "http",
+							"host": [
+								"sweefy-001-site5",
+								"dtempurl",
+								"com"
+							],
+							"path": [
+								"api",
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Station",
+			"item": [
+				{
+					"name": "Create new Station",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoic3VwZXJ2aXNvcnVzZXIxMjg1IiwiVXNlcklkIjoiM2RkNmQzMDYtZDk0Yy00Y2NlLWIzMjUtZGZjNjg0MWY4MjBkIiwiUm9sZSI6IlN1cGVydmlzb3IiLCJqdGkiOiJkYzM5OGFmMC00MjEzLTQ2MTctYWFkNS0yMTBlYmExODgyNjEiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJTdXBlcnZpc29yIiwiaWQiOiIzZGQ2ZDMwNi1kOTRjLTRjY2UtYjMyNS1kZmM2ODQxZjgyMGQiLCJleHAiOjE2Mzg2NTA2NzAsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6NTAwNDEiLCJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjUwMDQxIn0.5qCJjpdh689_5jGEhx6iw0GLtqMygVxkr73bn3yVfy4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"Ain Shams\",\r\n    \"lat\":41.567327,\r\n    \"long\":12.286468,\r\n    \"busId\":2,\r\n    \"studentsId\":[6,7]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://sweefy-001-site5.dtempurl.com/api/stations",
+							"protocol": "http",
+							"host": [
+								"sweefy-001-site5",
+								"dtempurl",
+								"com"
+							],
+							"path": [
+								"api",
+								"stations"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Stations",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoic3VwZXJ2aXNvcnVzZXIxMjg1IiwiVXNlcklkIjoiM2RkNmQzMDYtZDk0Yy00Y2NlLWIzMjUtZGZjNjg0MWY4MjBkIiwiUm9sZSI6IlN1cGVydmlzb3IiLCJqdGkiOiJkYzM5OGFmMC00MjEzLTQ2MTctYWFkNS0yMTBlYmExODgyNjEiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJTdXBlcnZpc29yIiwiaWQiOiIzZGQ2ZDMwNi1kOTRjLTRjY2UtYjMyNS1kZmM2ODQxZjgyMGQiLCJleHAiOjE2Mzg2NTA2NzAsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6NTAwNDEiLCJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjUwMDQxIn0.5qCJjpdh689_5jGEhx6iw0GLtqMygVxkr73bn3yVfy4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://sweefy-001-site5.dtempurl.com/api/stations",
+							"protocol": "http",
+							"host": [
+								"sweefy-001-site5",
+								"dtempurl",
+								"com"
+							],
+							"path": [
+								"api",
+								"stations"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Students",
+			"item": [
+				{
+					"name": "Get Students",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoic3VwZXJ2aXNvcnVzZXIxMjg1IiwiVXNlcklkIjoiM2RkNmQzMDYtZDk0Yy00Y2NlLWIzMjUtZGZjNjg0MWY4MjBkIiwiUm9sZSI6IlN1cGVydmlzb3IiLCJqdGkiOiJkYzM5OGFmMC00MjEzLTQ2MTctYWFkNS0yMTBlYmExODgyNjEiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJTdXBlcnZpc29yIiwiaWQiOiIzZGQ2ZDMwNi1kOTRjLTRjY2UtYjMyNS1kZmM2ODQxZjgyMGQiLCJleHAiOjE2Mzg2NTA2NzAsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6NTAwNDEiLCJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjUwMDQxIn0.5qCJjpdh689_5jGEhx6iw0GLtqMygVxkr73bn3yVfy4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://sweefy-001-site5.dtempurl.com/api/students",
+							"protocol": "http",
+							"host": [
+								"sweefy-001-site5",
+								"dtempurl",
+								"com"
+							],
+							"path": [
+								"api",
+								"students"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Bus Students",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoic3VwZXJ2aXNvcnVzZXIxMjg1IiwiVXNlcklkIjoiM2RkNmQzMDYtZDk0Yy00Y2NlLWIzMjUtZGZjNjg0MWY4MjBkIiwiUm9sZSI6IlN1cGVydmlzb3IiLCJqdGkiOiJkYzM5OGFmMC00MjEzLTQ2MTctYWFkNS0yMTBlYmExODgyNjEiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJTdXBlcnZpc29yIiwiaWQiOiIzZGQ2ZDMwNi1kOTRjLTRjY2UtYjMyNS1kZmM2ODQxZjgyMGQiLCJleHAiOjE2Mzg2NTA2NzAsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6NTAwNDEiLCJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjUwMDQxIn0.5qCJjpdh689_5jGEhx6iw0GLtqMygVxkr73bn3yVfy4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://sweefy-001-site5.dtempurl.com/students/busStudents",
+							"protocol": "http",
+							"host": [
+								"sweefy-001-site5",
+								"dtempurl",
+								"com"
+							],
+							"path": [
+								"students",
+								"busStudents"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}

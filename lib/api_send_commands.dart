@@ -54,30 +54,30 @@ class SendApis extends StatelessWidget {
     }
 
 
-      Future<bool> createStation(String id,String name,double lat,double lng,List<Member> members) async
-    {
-      final Map<String,dynamic> stationData ={
-        'id':id,///from backend
-        'name':name,
-        'lat':lat,
-        'lng':lng,
-        'members':members
-      };
-      try {
-        final http.Response response= await http.post(url, body: json.encode(stationData),
-          headers: {'Content-Type': 'application/json'},);
-        if(response.statusCode!=200 && response.statusCode!=201)
-          {
-            return false;
-          }
-        final Map<String, dynamic> responseData = json.decode(response.body);
-        final Station newStation=Station(id, name, members, lat, lng);
-        return true;
-      }
-      catch(error){
-        return false;
-    }
-    }
+//      Future<bool> createStation(String id,String name,double lat,double lng,List<Member> members) async
+//    {
+//      final Map<String,dynamic> stationData ={
+//        'id':id,///from backend
+//        'name':name,
+//        'lat':lat,
+//        'lng':lng,
+//        'members':members
+//      };
+//      try {
+//        final http.Response response= await http.post(url, body: json.encode(stationData),
+//          headers: {'Content-Type': 'application/json'},);
+//        if(response.statusCode!=200 && response.statusCode!=201)
+//          {
+//            return false;
+//          }
+//        final Map<String, dynamic> responseData = json.decode(response.body);
+//        final Station newStation=Station(id, name, members, lat, lng);
+//        return true;
+//      }
+//      catch(error){
+//        return false;
+//    }
+//    }
 
 
     Future<bool> startEndTrip(String message) async{

@@ -1,7 +1,10 @@
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:usave/utilities/constants.dart';
 import 'package:usave/components/mainbutton.dart';
-import 'package:usave/components/pages_header.dart';
+import 'package:usave/models/supervisor.dart';
+import 'package:http/http.dart'as http;
 import 'package:usave/models/auth_mode.dart';
 import 'package:usave/pages/dashboard_page.dart';
 
@@ -15,6 +18,36 @@ class _LoginPageState extends State<LoginPage> {
 
   AuthMode _authMode = AuthMode.Login;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController emailController = new TextEditingController();
+  final TextEditingController passwordController = new TextEditingController();
+   Supervisor supervisor;
+  bool _isLoading = false;
+
+  Future<void> authenticate(String email, String password)
+  async {
+    final Map<String,String> authData ={
+      "email":email,
+      "password":password,
+    };
+    final Map<String,String> headers ={
+      "Content-Type":'application/json',
+    };
+    final http.Response response = await http.post('$BASE_URL''users/login',
+        body: jsonEncode(authData), headers:headers);
+    final Map<String,dynamic> responseData=json.decode(response.body);
+    if (responseData.containsKey('token')) {
+      final SharedPreferences prefs=await SharedPreferences.getInstance();
+      prefs.setString('token', responseData['token']);
+      supervisor=new Supervisor(responseData['busNumber'],responseData['username'],responseData['agentName']);
+      _isLoading=false;
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => DashboardPage(agentName:responseData['agentName'],
+        userName:responseData['username'],busNumber:responseData['busNumber'],)),
+      );
+
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +59,8 @@ class _LoginPageState extends State<LoginPage> {
           fit: BoxFit.cover,
         )),
 
-        child: Padding(
+        child: _isLoading?Center(child: CircularProgressIndicator()):
+        Padding(
           padding: const EdgeInsets.only(top:200,right:15,left:15),
           child: Center(
             child: Form(
@@ -38,6 +72,7 @@ class _LoginPageState extends State<LoginPage> {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical:20.0,horizontal: 40),
                       child: TextFormField(
+                        controller: emailController,
                         scrollPadding: EdgeInsets.all(20),
                         validator: (String value) {
                           if (!RegExp(r"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")
@@ -57,6 +92,7 @@ class _LoginPageState extends State<LoginPage> {
                     _authMode==AuthMode.Login?Padding(
                       padding: const EdgeInsets.symmetric(vertical:10.0,horizontal: 40),
                       child: TextFormField(
+                        controller: passwordController,
                         validator: (String value) {
                           if (value.trim().isEmpty) {
                             return 'Password must not be empty';
@@ -72,12 +108,17 @@ class _LoginPageState extends State<LoginPage> {
                     ):Container(),
                     MainButton(_authMode==AuthMode.Login?'LOGIN':'Recover', mainColor, 280, (){
                       if(_formKey.currentState.validate())
-                        {
+                      {
+                        setState(() {
+                          _isLoading=true;
+                        });
                           _formKey.currentState.save();
                           try {
                             if (_authMode == AuthMode.Recover) {
                             } else if (_authMode == AuthMode.Login) {
-                                Navigator.pushNamed(context, DashboardPage.id);
+
+                               authenticate(emailController.text, passwordController.text);
+
                             }
                           } catch (e) {
                             print(e);
