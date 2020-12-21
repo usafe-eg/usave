@@ -53,11 +53,18 @@ class _TripMembersDetailsPageState extends State<TripMembersDetailsPage> {
         actions: <Widget>[
           PagesHeader('Bus Members Details')],
         backgroundColor: mainColor,),
-      body: Padding(padding: EdgeInsets.all(8),
-        child: ListView.builder(itemCount: busMembers.length,
-            itemBuilder: (context,index){
-              return MemberListItem(name: busMembers[index]['name'],color: busMembers[index]['color'],station: busMembers[index]['station'],)
-              ;}),
+      body: Container(
+        decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage("assets/images/mainbackground.png"),
+              fit: BoxFit.cover,
+            )),
+        child: Padding(padding: EdgeInsets.all(8),
+          child: ListView.builder(itemCount: busMembers.length,
+              itemBuilder: (context,index){
+                return MemberListItem(name: busMembers[index]['name'],color: busMembers[index]['color'],station: busMembers[index]['station'],)
+                ;}),
+        ),
       ),
     );
   }

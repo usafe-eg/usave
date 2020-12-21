@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:toast/toast.dart';
 import 'package:usave/models/member.dart';
 import 'package:usave/models/station_mode.dart';
 import 'package:usave/utilities/constants.dart';
@@ -10,6 +11,9 @@ import 'package:usave/components/member_list_item.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:usave/components/pages_header.dart';
 import 'package:http/http.dart'as http;
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:path_provider/path_provider.dart';
 
 class BusMembersPage extends StatefulWidget {
 
@@ -21,19 +25,14 @@ class BusMembersPage extends StatefulWidget {
 
 class _BusMembersPageState extends State<BusMembersPage> {
 
-  List<Map<String,dynamic>> busMembers=[
-    {'name':'Saif Mohamed','station':'Abbas Al Akad'},
-    {'name':'Sherif Ehab','station':'Abbas Al Akad'},
-    {'name':'Mohamed Mohsen','station':'Makram Ebeid'},
-    {'name':'Seif Mohamed','station':'Makram Ebeid'},
-    {'name':'Shady Ahmed','station':'7th District'},
-    {'name':'Mohamed Sabry','station':'7th District'},
-    {'name':'Gasser Ashraf','station':'7th District'},];
-
+  Box box;
   List<Member> membersList=[];
   String token;
-  Future<List<Member>> getMembers()async
+  List data=[];
+  Future<bool> getMembers()async
   {
+    await openBox();
+    membersList.clear();
     final SharedPreferences prefs=await SharedPreferences.getInstance();
     token=prefs.getString('token');
 
@@ -41,19 +40,85 @@ class _BusMembersPageState extends State<BusMembersPage> {
       "Content-Type":'application/json',
       "Authorization": 'Bearer $token',
     };
-    final Response response=await http.get('$BASE_URL''students',headers:headers);
-    final Map<String,dynamic> responseData=json.decode(response.body);
-    List<dynamic> data = responseData["results"];
-    for (var item in data) {
-      final members = Member(
-        id: item["id"],
-        name: item["name"],
-      );
-      if (members.id!=null) membersList.add(members);
+    try{
+      final Response response=await http.get('$BASE_URL''students',headers:headers);
+      final Map<String,dynamic> responseData=json.decode(response.body);
+      List<dynamic> membersList = responseData["results"];
+      await putData(membersList);
+//      for (var item in membersList) {
+//        final members = Member(
+//          id: item["id"],
+//          name: item["name"],
+//        );
+//        if (members.id!=null) membersList.add(members);
+//      }
+//      //return membersList;
     }
-    return membersList;
-
+    catch(SocketException){
+      print("No Internet Connection");
+    }
+    ///get the data from DB
+    var myMap=box.toMap().values.toList();
+    if(myMap.isEmpty)
+    {
+      data.add('empty');
+    }
+    else {
+      data=myMap;
+    }
+    return Future.value(true);
   }
+
+  Future putData(data)async
+  {
+    await box.clear();
+    ///insert the data
+    for(var d in data)
+    {
+      box.add(d);
+
+    }
+  }
+  Future<void> updateData()async
+  {
+    membersList.clear();
+
+    final Map<String,String> headers ={
+      "Content-Type":'application/json',
+      "Authorization": 'Bearer $token',
+    };
+    try{
+      final Response response=await http.get('$BASE_URL''students',headers:headers);
+      final Map<String,dynamic> responseData=json.decode(response.body);
+      List<dynamic> membersList = responseData["results"];
+      await putData(membersList);
+      setState(() {
+
+      });
+//      for (var item in membersList) {
+//        final members = Member(
+//          id: item["id"],
+//          name: item["name"],
+//        );
+//        if (members.id!=null) membersList.add(members);
+//      }
+//      //return membersList;
+    }
+    catch(SocketException)
+    {
+      Toast.show('No Internet Connection', context,duration: Toast.LENGTH_LONG,gravity: Toast.BOTTOM);
+    }
+  }
+
+  Future openBox() async
+  {
+    var dir= await getApplicationDocumentsDirectory();
+    Hive.init(dir.path);
+    box=await Hive.openBox('data');
+    return;
+  }
+
+
   @override
   void initState() {
     super.initState();
@@ -66,26 +131,41 @@ class _BusMembersPageState extends State<BusMembersPage> {
         actions: <Widget>[
           PagesHeader('Bus Members')],
         backgroundColor: mainColor,),
-      body: Padding(padding: EdgeInsets.all(8),
-      child: FutureBuilder(
-        future: getMembers(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return ListView.builder(
-                itemCount: snapshot.data.length,
-                itemBuilder: (context, index) => MemberListItem(
-                  name: snapshot.data[index].name,
-                  color: Colors.orange,
-                  station: busMembers[index]['station'],
-                  stationMode: StationMode.Normal,
-                ));
-          } else {
-            return ModalProgressHUD(
-                inAsyncCall: true,
-                child: Container(child: Center(child: Text("Loading....."))));
-          }
-        },
-      ),
+      body: Container(
+        decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage("assets/images/mainbackground.png"),
+              fit: BoxFit.cover,
+            )),
+        child: Padding(padding: EdgeInsets.all(8),
+        child: FutureBuilder(
+          future: getMembers(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              if(data.contains('empty'))
+                {
+                  return Center(child: Text('No Data',style: TextStyle(fontSize: 24),));
+                }
+              else {
+                return RefreshIndicator(
+                  onRefresh:updateData,
+                  child: ListView.builder(
+                      itemCount: data.length,
+                      itemBuilder: (context, index) =>
+                          MemberListItem(
+                            name: data[index]['name'],
+                            color: Colors.orange,
+                            station: 'station',
+                            stationMode: StationMode.Normal,
+                          )),
+                );
+              }
+            } else {
+              return Center(child: CircularProgressIndicator());
+            }
+          },
+        ),
+        ),
       ),
     );
   }

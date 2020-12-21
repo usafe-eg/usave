@@ -32,6 +32,8 @@ dependencies:
   toast: ^0.1.5
   geolocator: ^6.1.4
   modal_progress_hud: ^0.1.3
+  hive_flutter: ^0.3.1
+  hive: ^1.4.4+1
 
 dev_dependencies:
   flutter_test:
@@ -49,8 +51,9 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   assets:
-    - assets/images/slice-02.png
-    - assets/images/slice-01.png
+    - assets/images/loginbackground.png
+    - assets/images/mainbackground.png
+    - assets/images/headerImage.png
     - assets/audios/peepSound.wav
 
   # To add assets to your application, add an assets section, like this:

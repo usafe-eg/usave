@@ -25,6 +25,7 @@ class _StationPageState extends State<StationPage> {
   String token;
   Future<List<Station>> getStations()async
   {
+    stationsList.clear();
     final SharedPreferences prefs=await SharedPreferences.getInstance();
     token=prefs.getString('token');
 
@@ -57,24 +58,31 @@ class _StationPageState extends State<StationPage> {
         actions: <Widget>[
           PagesHeader('Stations')],
         backgroundColor: mainColor,),
-      body: Padding(padding: EdgeInsets.all(8),
-        child: FutureBuilder(
-          future: getStations(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return ListView.builder(
-                  itemCount: snapshot.data.length,
-                  itemBuilder: (context, index) => StationListItem(
-                    name: snapshot.data[index].name,
-                    color: Colors.orange,
-                    numOfStudents:snapshot.data[index].numOfStudents,
-                  ));
-            } else {
-              return ModalProgressHUD(
-                  inAsyncCall: true,
-                  child: Container(child: Center(child: Text("Loading....."))));
-            }
-          },
+      body: Container(
+        decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage("assets/images/mainbackground.png"),
+              fit: BoxFit.cover,
+            )),
+        child: Padding(padding: EdgeInsets.all(8),
+          child: FutureBuilder(
+            future: getStations(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return ListView.builder(
+                    itemCount: snapshot.data.length,
+                    itemBuilder: (context, index) => StationListItem(
+                      name: snapshot.data[index].name,
+                      color: Colors.orange,
+                      numOfStudents:snapshot.data[index].numOfStudents,
+                    ));
+              } else {
+                return ModalProgressHUD(
+                    inAsyncCall: true,
+                    child: Container(child: Center(child: Text("Loading....."))));
+              }
+            },
+          ),
         ),
       ),
     );

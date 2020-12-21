@@ -12,7 +12,7 @@ class PagesHeader extends StatelessWidget {
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage("assets/images/slice-02.png"),
+                  image: AssetImage("assets/images/headerImage.png"),
                   fit: BoxFit.cover,
                 )),
             child: Padding(

@@ -44,53 +44,60 @@ class _TripPageState extends State<TripPage> {
         actions: <Widget>[
       PagesHeader('Trip Page')],
         backgroundColor: mainColor,),
-      body: Column(
-        children: <Widget>[
-          Card(
-            borderOnForeground: true,
-            margin: EdgeInsets.all(5),
-            elevation: 8,
-            child: InkWell(
-              highlightColor: mainColor,
-              splashColor: mainColor,
-              onTap: (){
-                setState(() {
-                  _stationMode=StationMode.Normal;
-                  Navigator.pushNamed(context, TripMembersDetailsPage.id);
-                });
+      body: Container(
+        decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage("assets/images/mainbackground.png"),
+              fit: BoxFit.cover,
+            )),
+        child: Column(
+          children: <Widget>[
+            Card(
+              borderOnForeground: true,
+              margin: EdgeInsets.all(5),
+              elevation: 8,
+              child: InkWell(
+                highlightColor: mainColor,
+                splashColor: mainColor,
+                onTap: (){
+                  setState(() {
+                    _stationMode=StationMode.Normal;
+                    Navigator.pushNamed(context, TripMembersDetailsPage.id);
+                  });
 
-              },
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    TripPageDetail('Members', 30),
-                    TripPageDetail('In Bus', 20),
-                    TripPageDetail('Absent', 5),
-                    TripPageDetail('Waiting', 5),
-                  ],
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      TripPageDetail('Members', 30),
+                      TripPageDetail('In Bus', 20),
+                      TripPageDetail('Absent', 5),
+                      TripPageDetail('Waiting', 5),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-        Expanded(
-          flex: 6,
-          child: Padding(
-            padding: const EdgeInsets.only(top:40.0),
-            child: ListView.builder(itemCount: stationsDetails.length,
-                itemBuilder: (context,index){
-                  return TripPageStation(color: stationsDetails[index]['color'],
-                    station:stationsDetails[index]['station'],
-                  stationNumber: index+1,
-                    numberOfStudents:stationsDetails[index]['numberOfStudents'] ,numberOfStations: stationsDetails.length,);
-            }),
-          ),
-        ),
           Expanded(
-            flex: 1,
-              child: MainButton('END TRIP',mainColor,170,_endTrip)),
-        ],
+            flex: 6,
+            child: Padding(
+              padding: const EdgeInsets.only(top:40.0),
+              child: ListView.builder(itemCount: stationsDetails.length,
+                  itemBuilder: (context,index){
+                    return TripPageStation(color: stationsDetails[index]['color'],
+                      station:stationsDetails[index]['station'],
+                    stationNumber: index+1,
+                      numberOfStudents:stationsDetails[index]['numberOfStudents'] ,numberOfStations: stationsDetails.length,);
+              }),
+            ),
+          ),
+            Expanded(
+              flex: 1,
+                child: MainButton('END TRIP',mainColor,170,_endTrip)),
+          ],
+        ),
       ),
     );
   }

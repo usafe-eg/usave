@@ -61,7 +61,11 @@ class _DashboardPageState extends State<DashboardPage> {
           PagesHeader(widget.userName)],
         backgroundColor: mainColor,),
     body: Container(
-      color: Colors.grey[300],
+      decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/images/mainbackground.png"),
+            fit: BoxFit.cover,
+          )),
       width: double.infinity,
       height: double.infinity,
       child: Column(

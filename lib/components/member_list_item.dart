@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:usave/models/station_mode.dart';
+import 'package:usave/pages/station_reg_edit_page.dart';
 import 'package:usave/utilities/constants.dart';
 
 // ignore: must_be_immutable
@@ -10,8 +11,9 @@ class MemberListItem extends StatefulWidget {
    final String name;
    final String station;
    final StationMode stationMode;
+   final int id;
 
-  MemberListItem({this.color, this.name, this.station,this.stationMode});
+  MemberListItem({this.color, this.name, this.station,this.stationMode,this.id});
 
   @override
   _MemberListItemState createState() => _MemberListItemState();
@@ -29,7 +31,16 @@ class _MemberListItemState extends State<MemberListItem> {
           if(widget.stationMode==StationMode.Edit)
             {
                 setState(() {
-                  widget.color==greyColor?widget.color=mainColor:widget.color=greyColor;
+                  if(widget.color==greyColor)
+                    {
+                      widget.color=mainColor;
+                      StationRegEditPage.studentsId.add(widget.id);
+                    }
+                  else {
+                    widget.color=greyColor;
+                    StationRegEditPage.studentsId.remove(widget.id);
+                  }
+
                 });
             }
         },
