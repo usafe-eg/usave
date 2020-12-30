@@ -23,8 +23,8 @@ class _LoginPageState extends State<LoginPage> {
    Supervisor supervisor;
   bool _isLoading = false;
 
-  Future<void> authenticate(String email, String password)
-  async {
+  Future<void> authenticate(String email, String password)async
+  {
     final Map<String,String> authData ={
       "email":email,
       "password":password,

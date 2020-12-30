@@ -1,6 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:usave/models/supervisor.dart';
+import 'package:toast/toast.dart';
 import 'package:usave/pages/trip_page.dart';
 import 'package:usave/utilities/constants.dart';
 import 'package:usave/components/mainbutton.dart';
@@ -9,6 +11,7 @@ import 'package:usave/pages/stations_page.dart';
 import 'package:usave/pages/members_page.dart';
 import 'package:usave/models/station_mode.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart'as http;
 
 class DashboardPage extends StatefulWidget {
   static const String id = 'DashboardPage';
@@ -24,10 +27,33 @@ class DashboardPage extends StatefulWidget {
 }
 
 class _DashboardPageState extends State<DashboardPage> {
-  void _startTrip()
-  {
-    Navigator.pushNamed(context, TripPage.id);
+
+  String token;
+   startTrip()async
+   {
+   final Map<String,String> authData ={"":""};
+   String body="{}";
+    final SharedPreferences prefs=await SharedPreferences.getInstance();
+    token=prefs.getString('token');
+    final Map<String,String> headers ={
+      "Content-Type":'application/json',
+      "Authorization": 'Bearer $token',
+    };
+
+      final http.Response response = await http.post('$BASE_URL''stations/startTrip',body:null,headers:headers);
+//      final Map<String,dynamic> responseData=json.decode(response.body);
+      print('${response.body}''ssssssssssss');
+      print('${response.statusCode}''ssssssssssss');
+      if(response.statusCode==200)
+      {
+        Navigator.pushNamed(context, TripPage.id);
+      }
+
+      //Toast.show(e.toString(), context,duration:Toast.LENGTH_LONG);
+
   }
+
+
   void _navigateToBusMembers()
   {
     setState(() {
@@ -79,7 +105,7 @@ class _DashboardPageState extends State<DashboardPage> {
                 padding: const EdgeInsets.only(bottom:20.0),
                 child: Text(widget.busNumber,style: TextStyle(fontSize: 15),),
               ),
-              MainButton('START TRIP',mainColor,280,_startTrip),
+              MainButton('START TRIP',mainColor,280,startTrip),
               MainButton('BUS MEMBERS',mainColor,280,_navigateToBusMembers),
               MainButton('STATIONS',mainColor,280,_navigateToStations),
             ],

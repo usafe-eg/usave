@@ -8,11 +8,9 @@ import 'package:usave/models/member.dart';
 import 'package:usave/models/station_mode.dart';
 import 'package:usave/utilities/constants.dart';
 import 'package:usave/components/member_list_item.dart';
-import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:usave/components/pages_header.dart';
 import 'package:http/http.dart'as http;
 import 'package:hive/hive.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:path_provider/path_provider.dart';
 
 class BusMembersPage extends StatefulWidget {
@@ -114,7 +112,7 @@ class _BusMembersPageState extends State<BusMembersPage> {
   {
     var dir= await getApplicationDocumentsDirectory();
     Hive.init(dir.path);
-    box=await Hive.openBox('data');
+    box=await Hive.openBox('students');
     return;
   }
 

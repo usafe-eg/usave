@@ -26,15 +26,36 @@ class StationRegEditPage extends StatefulWidget {
 class _StationRegEditPageState extends State<StationRegEditPage> {
 
 
+   checkDistanceBetweenBusAndStation(double lat,long)async
+  {
+    Map <String,dynamic> authData = {
+      'lat':lat,
+      'long':long,
+    };
+    final Map<String,String> headers ={
+      "Content-Type":'application/json',
+      "Authorization": 'Bearer $token',
+    };
+    final Response response=await http.post('$BASE_URL''stations/checkDistanceBetweenBusAndStation',
+        headers:headers,body:jsonEncode(authData));
+//    Map <String,dynamic>responseData;
+//    responseData = json.decode(response.body);
+    print('$authData''${response.statusCode}''sssssssssss');
+    if (response.statusCode == 200) {
+    }
+
+  }
+
   Future<void> _getCurrentStation()async{
     position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
     isLocationServiceEnabled  = await Geolocator.isLocationServiceEnabled();
     permission = await Geolocator.checkPermission();
     permission = await Geolocator.requestPermission();
-    setState(() {
+    setState((){
       latitude=position.latitude;
       longitude=position.longitude;
     });
+    await checkDistanceBetweenBusAndStation(latitude,longitude);
 //     await Geolocator.openAppSettings();
 //     await Geolocator.openLocationSettings();
     print('${position.longitude} sssssssss');
