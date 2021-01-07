@@ -8,6 +8,8 @@ import 'package:usave/components/pages_header.dart';
 import 'package:usave/pages/scan_page.dart';
 import 'package:usave/pages/trip_members_details_page.dart';
 import 'package:usave/models/station_mode.dart';
+import 'package:hive/hive.dart';
+import 'package:path_provider/path_provider.dart';
 
 class TripPage extends StatefulWidget {
   static const String id = 'TripPage';
@@ -18,19 +20,42 @@ class TripPage extends StatefulWidget {
 class _TripPageState extends State<TripPage> {
   StationMode _stationMode;
 
+  List data=[];
+  Box box;
+
   void _endTrip()
   {
     Navigator.pop(context);
   }
-  List<Map<String,dynamic>> stationsDetails=[
-    {'station':'Abbas Al Akad','color':Colors.blueGrey,'numberOfStudents':2},
-    {'station':'Makram Ebeid','color':Colors.blueGrey,'numberOfStudents':3},
-    {'station':'7th District','color':Colors.yellow[700],'numberOfStudents':4},
-    {'station':'AinShams','color':Colors.black,'numberOfStudents':8},
-    {'station':'Abbasya','color':Colors.black,'numberOfStudents':5},
-    {'station':'Manshet ELBakry','color':Colors.black,'numberOfStudents':5},
-    {'station':'Zeiton','color':Colors.black,'numberOfStudents':4},];
 
+  Future<bool> getStations()async
+  {
+    await openBox();
+    ///get the data from DB
+    var myMap=box.toMap().values.toList();
+    if(myMap.isEmpty)
+    {
+      data.add('empty');
+    }
+    else {
+      data=myMap;
+    }
+    return Future.value(true);
+  }
+  Future openBox() async
+  {
+    var dir= await getApplicationDocumentsDirectory();
+    Hive.init(dir.path);
+    box=await Hive.openBox('stations');
+    return;
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getStations();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -84,13 +109,30 @@ class _TripPageState extends State<TripPage> {
             flex: 6,
             child: Padding(
               padding: const EdgeInsets.only(top:40.0),
-              child: ListView.builder(itemCount: stationsDetails.length,
-                  itemBuilder: (context,index){
-                    return TripPageStation(color: stationsDetails[index]['color'],
-                      station:stationsDetails[index]['station'],
-                    stationNumber: index+1,
-                      numberOfStudents:stationsDetails[index]['numberOfStudents'] ,numberOfStations: stationsDetails.length,);
-              }),
+              child: FutureBuilder(
+                future: getStations(),
+                builder: (context, snapshot){
+                  if(snapshot.hasData)
+                    {
+                      if(data.contains('empty'))
+                        {
+                          return Center(child: Text('No Data',style: TextStyle(fontSize: 24),));
+                        }
+                      else{
+                        return ListView.builder(itemCount: data.length,
+                            itemBuilder: (context,index){
+                              return TripPageStation(color: Colors.black,
+                                station:data[index]['name'],
+                                stationNumber: index+1,
+                                numberOfStudents:data[index]['numOfStudents'] ,numberOfStations: data.length,);
+                            });
+                      }
+                    }
+                  else {
+                    return Center(child: CircularProgressIndicator());
+                  }
+                }
+              ),
             ),
           ),
             Expanded(
