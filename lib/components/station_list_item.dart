@@ -8,8 +8,8 @@ class StationListItem extends StatefulWidget {
   final Color color;
   final int numOfStudents;
   final String name;
-
-  StationListItem({this.color,this.name,this.numOfStudents});
+  final Key key;
+  StationListItem({this.color,this.name,this.numOfStudents,this.key}): super(key: key);
 
   @override
   _StationListItemState createState() => _StationListItemState();
