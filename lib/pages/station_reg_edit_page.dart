@@ -17,7 +17,8 @@ class StationRegEditPage extends StatefulWidget {
   static const String id = 'StationRegEditPage';
   static List<int>studentsId=[];
   final String stationName;
-  StationRegEditPage({this.stationName});
+  final int stationOrder;
+  StationRegEditPage({this.stationName,this.stationOrder});
 
   @override
   _StationRegEditPageState createState() => _StationRegEditPageState();
@@ -59,6 +60,7 @@ class _StationRegEditPageState extends State<StationRegEditPage> {
 //     await Geolocator.openAppSettings();
 //     await Geolocator.openLocationSettings();
     print('${position.longitude} sssssssss');
+    print(widget.stationOrder.toString());
   }
   List<Member> membersList=[];
   String token;
@@ -111,6 +113,24 @@ class _StationRegEditPageState extends State<StationRegEditPage> {
 ////            Route<dynamic> route) => false);
         }
       }
+    }
+
+    updateStation(String name,double lat,double long,int order)async
+    {
+      Map <String,dynamic> authData = {
+        'name': name,
+        'lat':lat,
+        'long':long,
+        'order':order,
+      };
+      final Map<String,String> headers ={
+        "Content-Type":'application/json',
+        "Authorization": 'Bearer $token',
+      };
+      final Response response=await http.put('$BASE_URL''stations/1',headers:headers,body:jsonEncode(authData));
+      Map <String,dynamic>responseData;
+      responseData = json.decode(response.body);
+      print(responseData.toString());
     }
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -284,8 +304,11 @@ class _StationRegEditPageState extends State<StationRegEditPage> {
                     {
                       _formKey.currentState.save();
                       try{
-                        await createNewStation(stationController.text==''?widget.stationName:stationController.text,
-                            latitude,longitude,2,StationRegEditPage.studentsId);
+//                        await createNewStation(stationController.text==''?widget.stationName:stationController.text,
+//                            latitude,longitude,2,StationRegEditPage.studentsId);
+                      await updateStation(stationController.text==''?widget.stationName:stationController.text, latitude,longitude,
+                      widget.stationOrder);
+
                         //Navigator.pushNamed(context, DashboardPage.id);
                       }
                       catch(e)

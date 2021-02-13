@@ -39,7 +39,7 @@ class _BusMembersPageState extends State<BusMembersPage> {
       "Authorization": 'Bearer $token',
     };
     try{
-      final Response response=await http.get('$BASE_URL''students',headers:headers);
+      final Response response=await http.get('$BASE_URL''students/busStudents',headers:headers);
       final Map<String,dynamic> responseData=json.decode(response.body);
       List<dynamic> membersList = responseData["results"];
       await putData(membersList);
@@ -86,7 +86,7 @@ class _BusMembersPageState extends State<BusMembersPage> {
       "Authorization": 'Bearer $token',
     };
     try{
-      final Response response=await http.get('$BASE_URL''students',headers:headers);
+      final Response response=await http.get('$BASE_URL''students/busStudents',headers:headers);
       final Map<String,dynamic> responseData=json.decode(response.body);
       List<dynamic> membersList = responseData["results"];
       await putData(membersList);
@@ -151,9 +151,9 @@ class _BusMembersPageState extends State<BusMembersPage> {
                       itemCount: data.length,
                       itemBuilder: (context, index) =>
                           MemberListItem(
-                            name: data[index]['name'],
+                            name: data[index]['studentName'],
                             color: Colors.orange,
-                            station: 'station',
+                            station: data[index]['stationName'],
                             stationMode: StationMode.Normal,
                           )),
                 );

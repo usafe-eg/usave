@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'package:http/http.dart'as http;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:usave/utilities/constants.dart';
@@ -10,6 +12,7 @@ import 'package:usave/pages/trip_members_details_page.dart';
 import 'package:usave/models/station_mode.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class TripPage extends StatefulWidget {
   static const String id = 'TripPage';
@@ -22,9 +25,25 @@ class _TripPageState extends State<TripPage> {
 
   List data=[];
   Box box;
+  String token;
+  bool arrive=true;
 
-  void _endTrip()
+  void _endTrip()async
   {
+    final Map<String,dynamic> authData ={"isArrive":arrive};
+    final SharedPreferences prefs=await SharedPreferences.getInstance();
+    token=prefs.getString('token');
+    final Map<String,String> headers ={
+      "Content-Type":'application/json',
+      "Authorization": 'Bearer $token',
+    };
+//      final http.Response response = await http.post('$BASE_URL''trips/start',body:jsonEncode(authData),headers:headers);
+//      final Map<String,dynamic> responseData=json.decode(response.body);
+//      print('${response.body}''ssssssssssss');
+//      print('${response.statusCode}''ssssssssssss');
+//      if(response.statusCode==200)
+//      {
+//      }
     Navigator.pop(context);
   }
 

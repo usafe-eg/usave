@@ -6,8 +6,11 @@ import 'package:usave/components/pages_header.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart'as http;
 import 'dart:convert';
+import 'package:toast/toast.dart';
 import 'package:hive/hive.dart';
 import 'package:usave/models/station_mode.dart';
+import 'package:path_provider/path_provider.dart';
+
 class StationPage extends StatefulWidget {
 
   static const String id = 'StationPage';
@@ -23,25 +26,29 @@ class _StationPageState extends State<StationPage> {
   Box box;
   List<Widget> ss=[];
 bool ordering =false;
-
+  var myMap;
   Future<List> getStations()async
   {
-      //await openBox();
-      //stationsList.clear();
+    await openBox();
+    myMap=box.toMap().values.toList();
     if(!ordering) {
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
-      token = prefs.getString('token');
+      if (myMap.isEmpty || myMap.contains('empty')) {
+        stationsList.clear();
+        myMap.clear();
+        final SharedPreferences prefs = await SharedPreferences.getInstance();
+        token = prefs.getString('token');
 
-      final Map<String, String> headers = {
-        "Content-Type": 'application/json',
-        "Authorization": 'Bearer $token',
-      };
-      try {
-        final http.Response response = await http.get(
-            '$BASE_URL''stations', headers: headers);
-        final Map<String, dynamic> responseData = json.decode(response.body);
-        stationsList = responseData["results"];
-        // await putData(stationsList);
+        final Map<String, String> headers = {
+          "Content-Type": 'application/json',
+          "Authorization": 'Bearer $token',
+        };
+        try {
+          final http.Response response = await http.get(
+              '$BASE_URL''stations', headers: headers);
+          final Map<String, dynamic> responseData = json.decode(response.body);
+          stationsList = responseData["results"];
+          myMap = stationsList;
+          await putData(myMap);
 //    for (var item in data) {
 //      final stations = Station(
 //        numOfStudents: item["numOfStudents"],
@@ -50,75 +57,73 @@ bool ordering =false;
 //      if (stations.numOfStudents!=null) stationsList.add(stations);
 //    }
 //    return stationsList;
-      }
-      catch (SocketException) {
-        print("No Internet Connection");
-      }
+        }
+        catch (SocketException) {
+          print("No Internet Connection");
+        }
 
-      ///get the data from DB
-//    var myMap=box.toMap().values.toList();
-//    if(myMap.isEmpty)
-//    {
-//      data.add('empty');
-//    }
-//    else {
-//      data=myMap;
-//    }
-      return Future.value(stationsList);
+        ///get the data from DB
+        if (myMap.isEmpty) {
+          myMap.add('empty');
+        }
+        return Future.value(myMap);
+      }
+      else {
+        return Future.value(myMap);
+      }
     }
-    else{
-      return Future.value(stationsList);}
+   else if(ordering) {
+
+  return Future.value(myMap);
+  }
   }
 
-//  Future putData(data)async
-//  {
-//    await box.clear();
-//    ///insert the data
-//    for(var d in data)
-//    {
-//      box.add(d);
-//
-//    }
-//  }
-//  Future<void> updateData()async
-//  {
-//    stationsList.clear();
-//
-//    final Map<String,String> headers ={
-//      "Content-Type":'application/json',
-//      "Authorization": 'Bearer $token',
-//    };
-//    try{
-//      final http.Response response=await http.get('$BASE_URL''stations',headers:headers);
-//      final Map<String,dynamic> responseData=json.decode(response.body);
-//      List<dynamic> stationsList = responseData["results"];
-//      await putData(stationsList);
-//      setState(() {
-//
-//      });
-////      for (var item in membersList) {
-////        final members = Member(
-////          id: item["id"],
-////          name: item["name"],
-////        );
-////        if (members.id!=null) membersList.add(members);
-////      }
-////      //return membersList;
-//    }
-//    catch(SocketException)
-//    {
-//      Toast.show('No Internet Connection', context,duration: Toast.LENGTH_LONG,gravity: Toast.BOTTOM);
-//    }
-//  }
-//
-//  Future openBox() async
-//  {
-//    var dir= await getApplicationDocumentsDirectory();
-//    Hive.init(dir.path);
-//    box=await Hive.openBox('stations');
-//    return;
-//  }
-  void _onReorder(oldIndex, newIndex) {
+  Future putData(data)async
+  {
+    await box.clear();
+
+    ///insert the data
+    for (var d in data) {
+      box.add(d);
+    }
+  }
+  Future<void> updateData()async
+  {
+    stationsList.clear();
+    myMap.clear();
+    final Map<String,String> headers ={
+      "Content-Type":'application/json',
+      "Authorization": 'Bearer $token',
+    };
+    try{
+      final http.Response response=await http.get('$BASE_URL''stations',headers:headers);
+      final Map<String,dynamic> responseData=json.decode(response.body);
+      List<dynamic> stationsList = responseData["results"];
+      myMap=stationsList;
+      await putData(myMap);
+      getListItems();
+//      for (var item in membersList) {
+//        final members = Member(
+//          id: item["id"],
+//          name: item["name"],
+//        );
+//        if (members.id!=null) membersList.add(members);
+//      }
+//      //return membersList;
+    }
+    catch(SocketException)
+    {
+      Toast.show('No Internet Connection', context,duration: Toast.LENGTH_LONG,gravity: Toast.BOTTOM);
+    }
+  }
+  Future openBox() async
+  {
+    var dir= await getApplicationDocumentsDirectory();
+    Hive.init(dir.path);
+    box=await Hive.openBox('stations');
+    return;
+  }
+  void _onReorder(oldIndex, newIndex) async{
     setState(() {
       ordering=true;
     });
@@ -126,23 +131,24 @@ bool ordering =false;
     if (oldIndex < newIndex) newIndex -= 1;
 
     setState((){
-      var d=stationsList[oldIndex];
-      stationsList.removeAt(oldIndex);
-      stationsList.insert(newIndex, d);
+      var d=myMap[oldIndex];
+      myMap.removeAt(oldIndex);
+      myMap.insert(newIndex, d);
       var item = ss[oldIndex];
       ss.removeAt(oldIndex);
       ss.insert(newIndex, item);
     });
+    await putData(myMap);
   }
 
  List<Widget> getListItems()
   {
     ss.clear();
-        for(int i=0;i<stationsList.length;i++)
+        for(int i=0;i<myMap.length;i++)
       {
         ss.add(
             Padding(
-              key:ValueKey(stationsList[i]['id']),
+              key:ValueKey(myMap[i]['id']),
               padding: EdgeInsets.symmetric(vertical: 8),
               child: Container(
                 width: MediaQuery.of(context).size.width,
@@ -154,7 +160,7 @@ bool ordering =false;
                       _stationMode=StationMode.Edit;
                       Navigator.of(context)
                           .push(MaterialPageRoute(builder: (BuildContext context) {
-                        return StationRegEditPage(stationName: stationsList[i]['name'],);
+                        return StationRegEditPage(stationName: myMap[i]['name'],stationOrder:i+1,);
                       })
                       );
                     });
@@ -168,7 +174,7 @@ bool ordering =false;
                         Positioned(
                             top:15,
                             left: 20,
-                            child: Text(stationsList[i]['name'])),
+                            child: Text(myMap[i]['name'])),
                         Positioned(
                           left: 190,
                           child: Padding(
@@ -176,7 +182,7 @@ bool ordering =false;
                             child: Row(
                               children: <Widget>[
                                 Icon(Icons.person_outline),
-                                Text(stationsList[i]['numOfStudents'].toString())
+                                Text(myMap[i]['numOfStudents'].toString())
                               ],
                             ),
                           ),
@@ -212,12 +218,15 @@ bool ordering =false;
               future: getStations(),
               builder:(context, snapshot) {
                if (snapshot.hasData) {
-                   if(stationsList.isEmpty)
+                   if(myMap.isEmpty)
                 {
                   return Center(child: Text('No Data',style: TextStyle(fontSize: 24),));
                 }
                 else{
-                  return ReorderableListView(children: getListItems(),onReorder:_onReorder
+                  return RefreshIndicator(
+                    onRefresh: updateData,
+                    child: ReorderableListView(children: getListItems(),onReorder:_onReorder
+                    ),
                   );
               }}
               else {

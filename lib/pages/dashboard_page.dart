@@ -1,8 +1,6 @@
 import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:toast/toast.dart';
 import 'package:usave/pages/trip_page.dart';
 import 'package:usave/utilities/constants.dart';
 import 'package:usave/components/mainbutton.dart';
@@ -29,28 +27,25 @@ class DashboardPage extends StatefulWidget {
 class _DashboardPageState extends State<DashboardPage> {
 
   String token;
+  bool arrive=true;
    startTrip()async
    {
-   final Map<String,String> authData ={"":""};
-   String body="{}";
+   final Map<String,dynamic> authData ={"isArrive":arrive};
     final SharedPreferences prefs=await SharedPreferences.getInstance();
     token=prefs.getString('token');
     final Map<String,String> headers ={
       "Content-Type":'application/json',
       "Authorization": 'Bearer $token',
     };
-
-      final http.Response response = await http.post('$BASE_URL''stations/startTrip',body:null,headers:headers);
+//      final http.Response response = await http.post('$BASE_URL''trips/start',body:jsonEncode(authData),headers:headers);
 //      final Map<String,dynamic> responseData=json.decode(response.body);
-      print('${response.body}''ssssssssssss');
-      print('${response.statusCode}''ssssssssssss');
-      if(response.statusCode==200)
-      {
-        Navigator.pushNamed(context, TripPage.id);
-      }
-
-      //Toast.show(e.toString(), context,duration:Toast.LENGTH_LONG);
-
+//      print('${response.body}''ssssssssssss');
+//      print('${response.statusCode}''ssssssssssss');
+//      if(response.statusCode==400)
+//      {
+//        Navigator.pushNamed(context, TripPage.id);
+//      }
+   Navigator.pushNamed(context, TripPage.id);
   }
 
 

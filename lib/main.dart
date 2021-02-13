@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
          
         primarySwatch: Colors.blue,
       ),
-      home: StationPage(),
+      home: LoginPage(),
 
     routes: {
         LoginPage.id:(BuildContext context) => LoginPage(),
