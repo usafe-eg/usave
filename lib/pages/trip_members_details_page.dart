@@ -74,7 +74,8 @@ class _TripMembersDetailsPageState extends State<TripMembersDetailsPage> {
                     return ListView.builder(itemCount: data.length,
                         itemBuilder: (context,index){
                           return MemberListItem(name: data[index]['name'],color: Colors.black,
-                            station: data[index]['station']==null?'unassigned':data[index]['station'],)
+                            station: data[index]['station']==null?'unassigned':data[index]['station'],
+                          id:data[index]['id'],)
                           ;});
                   }}
               else{

@@ -6,6 +6,7 @@ import 'package:http/http.dart';
 import 'package:toast/toast.dart';
 import 'package:usave/models/member.dart';
 import 'package:usave/models/station_mode.dart';
+import 'package:usave/models/student_mode.dart';
 import 'package:usave/utilities/constants.dart';
 import 'package:usave/components/member_list_item.dart';
 import 'package:usave/components/pages_header.dart';
@@ -155,6 +156,8 @@ class _BusMembersPageState extends State<BusMembersPage> {
                             color: Colors.orange,
                             station: data[index]['station']==null?'unassigned':data[index]['station'],
                             stationMode: StationMode.Normal,
+                            studentMode: StudentMode.Update,
+                            id:data[index]['id'],
                           )),
                 );
               }

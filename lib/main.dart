@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:usave/models/station_mode.dart';
 import 'package:usave/pages/dashboard_page.dart';
 import 'package:usave/pages/scan_page.dart';
 import 'package:usave/pages/members_page.dart';

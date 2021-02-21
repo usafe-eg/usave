@@ -58,7 +58,7 @@ class _DashboardPageState extends State<DashboardPage> {
   }
   void _navigateToStations()
   {
-    Navigator.pushNamed(context, StationPage.id);
+    Navigator.push(context, MaterialPageRoute(builder: (context) => StationPage(color:Colors.orange,)));
   }
   void getToken()async
   {

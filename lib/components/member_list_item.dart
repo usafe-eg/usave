@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:usave/models/station_mode.dart';
+import 'package:usave/models/student_mode.dart';
+import 'package:usave/pages/stations_page.dart';
 import 'package:usave/pages/station_reg_edit_page.dart';
 import 'package:usave/utilities/constants.dart';
 
@@ -12,8 +14,9 @@ class MemberListItem extends StatefulWidget {
    final String station;
    final StationMode stationMode;
    final int id;
+   final StudentMode studentMode;
 
-  MemberListItem({this.color, this.name, this.station,this.stationMode,this.id});
+  MemberListItem({this.color, this.name, this.station,this.stationMode,this.id,this.studentMode});
 
   @override
   _MemberListItemState createState() => _MemberListItemState();
@@ -42,6 +45,12 @@ class _MemberListItemState extends State<MemberListItem> {
                   }
 
                 });
+            }
+          if(widget.studentMode==StudentMode.Update)
+            {
+              showModalBottomSheet(context: context,
+                  builder:(BuildContext context)=> StationPage(stationMode: StationMode.Normal,
+                    studentName:widget.name,color: Colors.grey,studentId:widget.id,));
             }
         },
         child: Card(

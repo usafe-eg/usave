@@ -1,0 +1,5 @@
+enum StudentMode
+{
+  Update,
+  Normal
+}

@@ -11,22 +11,29 @@ import 'package:hive/hive.dart';
 import 'package:usave/models/station_mode.dart';
 import 'package:path_provider/path_provider.dart';
 
+// ignore: must_be_immutable
 class StationPage extends StatefulWidget {
 
   static const String id = 'StationPage';
+   StationMode stationMode;
+   String studentName;
+   Color color;
+   int studentId;
+
+  StationPage({this.stationMode,this.studentName,this.color,this.studentId});
 
   @override
   _StationPageState createState() => _StationPageState();
 }
 
 class _StationPageState extends State<StationPage> {
-  StationMode _stationMode;
   List stationsList=[];
   String token;
   Box box;
   List<Widget> ss=[];
-bool ordering =false;
+  bool ordering =false;
   var myMap;
+   bool code=false;
   Future<List> getStations()async
   {
     await openBox();
@@ -77,7 +84,34 @@ bool ordering =false;
   return Future.value(myMap);
   }
   }
+  Future updateStudentStation(int id,stationId)async
+  {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    token = prefs.getString('token');
+    final Map<String,dynamic> authData ={
+      "newStationId":stationId,
+    };
+    final Map<String, String> headers = {
+      "Content-Type": 'application/json',
+      "Authorization": 'Bearer $token',
+    };
+    try {
+      final http.Response response = await http.put(
+          '$BASE_URL''students/$id/updateStation',body: jsonEncode(authData),headers: headers);
+      if(response.statusCode==200)
+        {
+          setState(() {code=true;});
+        }
+      else
+        {
+          setState(() {code=false;});
+        }
 
+    }
+    catch (SocketException) {
+      Toast.show("Failed to update StudentStation",context);
+    }
+  }
   Future putData(data)async
   {
     await box.clear();
@@ -156,13 +190,23 @@ bool ordering =false;
                   splashColor: mainColor,
                   highlightColor: mainColor,
                   onTap: (){
-                    setState(() {
-                      _stationMode=StationMode.Edit;
-                      Navigator.of(context)
-                          .push(MaterialPageRoute(builder: (BuildContext context) {
-                        return StationRegEditPage(stationName: myMap[i]['name'],stationOrder:i+1,);
-                      })
-                      );
+                    setState((){
+                      if(widget.stationMode==StationMode.Normal)
+                        {
+                           updateStudentStation(widget.studentId,myMap[i]['id']);
+                           Toast.show(code==true?'updated successfully':'update Failed',context,
+                               duration:Toast.LENGTH_LONG);
+                           Navigator.pop(context);
+                        }
+                      else{
+
+                        widget.stationMode=StationMode.Edit;
+                        Navigator.of(context)
+                            .push(MaterialPageRoute(builder: (BuildContext context) {
+                          return StationRegEditPage(stationName: myMap[i]['name'],stationOrder:i+1,);
+                        })
+                        );
+                      }
                     });
                   },
                   child: Card(
@@ -170,7 +214,7 @@ bool ordering =false;
                     color: Colors.white70,
                     child:Stack(
                       children: <Widget>[
-                        Container(color: Colors.orange,height: 50,width: 10,),
+                        Container(color:widget.color,height: 50,width: 10,),
                         Positioned(
                             top:15,
                             left: 20,
@@ -205,7 +249,7 @@ bool ordering =false;
     return Scaffold(
       appBar: AppBar(
         actions: <Widget>[
-          PagesHeader('Stations')],
+          PagesHeader(widget.studentName==null?'Stations':'Edit ${widget.studentName} Station')],
         backgroundColor: mainColor,),
       body: Container(
         decoration: BoxDecoration(
