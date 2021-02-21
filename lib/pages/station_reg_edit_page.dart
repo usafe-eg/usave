@@ -81,6 +81,7 @@ class _StationRegEditPageState extends State<StationRegEditPage> {
       final members = Member(
         id: item["id"],
         name: item["name"],
+        station: item['station']
       );
       if (members.id!=null) membersList.add(members);
     }
@@ -286,7 +287,7 @@ class _StationRegEditPageState extends State<StationRegEditPage> {
                             itemBuilder: (context, index) => MemberListItem(
                               name: snapshot.data[index].name,
                               color: greyColor,
-                              station:'station',
+                              station:snapshot.data[index].station==null?'unassigned':snapshot.data[index].station,
                               id:snapshot.data[index].id,
                               stationMode: StationMode.Edit,
                             ));

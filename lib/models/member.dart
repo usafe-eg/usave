@@ -1,7 +1,8 @@
 class Member{
  final int id;
  final String name;
- Member({this.id, this.name});
+ final String station;
+ Member({this.id, this.name,this.station});
 
 
 // factory Member.fromJson(Map<String,dynamic> json)

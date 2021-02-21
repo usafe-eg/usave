@@ -225,8 +225,7 @@ bool ordering =false;
                 else{
                   return RefreshIndicator(
                     onRefresh: updateData,
-                    child: ReorderableListView(children: getListItems(),onReorder:_onReorder
-                    ),
+                    child: ReorderableListView(children: getListItems(),onReorder:_onReorder),
                   );
               }}
               else {
