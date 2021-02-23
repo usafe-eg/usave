@@ -1,8 +1,8 @@
 class Supervisor
 {
   final String busNumber;
-  final String username;
+  final String userName;
   final String agentName;
 
-  Supervisor(this.busNumber, this.username, this.agentName);
+  Supervisor({this.busNumber, this.userName, this.agentName});
 }

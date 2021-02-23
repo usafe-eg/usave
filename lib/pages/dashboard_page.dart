@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:toast/toast.dart';
+import 'package:usave/models/supervisor.dart';
 import 'package:usave/pages/trip_page.dart';
 import 'package:usave/utilities/constants.dart';
 import 'package:usave/components/mainbutton.dart';
@@ -14,11 +16,8 @@ import 'package:http/http.dart'as http;
 class DashboardPage extends StatefulWidget {
   static const String id = 'DashboardPage';
 
-  final String busNumber;
-  final String agentName;
-  final String userName;
-
-  DashboardPage({this.busNumber, this.agentName, this.userName});
+  final Supervisor supervisor;
+  DashboardPage({this.supervisor});
 
   @override
   _DashboardPageState createState() => _DashboardPageState();
@@ -27,27 +26,29 @@ class DashboardPage extends StatefulWidget {
 class _DashboardPageState extends State<DashboardPage> {
 
   String token;
-  bool arrive=true;
+  bool isArrive=true;
    startTrip()async
    {
-   final Map<String,dynamic> authData ={"isArrive":arrive};
+   final Map<String,dynamic> authData ={"isArrive":isArrive};
     final SharedPreferences prefs=await SharedPreferences.getInstance();
     token=prefs.getString('token');
     final Map<String,String> headers ={
       "Content-Type":'application/json',
       "Authorization": 'Bearer $token',
     };
-//      final http.Response response = await http.post('$BASE_URL''trips/start',body:jsonEncode(authData),headers:headers);
-//      final Map<String,dynamic> responseData=json.decode(response.body);
-//      print('${response.body}''ssssssssssss');
-//      print('${response.statusCode}''ssssssssssss');
-//      if(response.statusCode==400)
-//      {
-//        Navigator.pushNamed(context, TripPage.id);
-//      }
-   Navigator.pushNamed(context, TripPage.id);
+      final http.Response response = await http.post('$BASE_URL''trips/start',body:jsonEncode(authData),headers:headers);
+      final Map<String,dynamic> responseData=json.decode(response.body);
+      if(response.statusCode==200)
+      {
+        prefs.setInt('tripId',responseData['tripId']);
+        Toast.show('Trip Started successfully', context);
+        Navigator.pushNamed(context, TripPage.id);
+      }
+      else
+        {
+          Toast.show('Could not Start Trip', context);
+        }
   }
-
 
   void _navigateToBusMembers()
   {
@@ -65,8 +66,6 @@ class _DashboardPageState extends State<DashboardPage> {
       final SharedPreferences prefs=await SharedPreferences.getInstance();
       prefs.getString('token');
     }
-
-
   StationMode _stationMode;
 
   @override
@@ -79,7 +78,7 @@ class _DashboardPageState extends State<DashboardPage> {
     return Scaffold(
       appBar: AppBar(
         actions: <Widget>[
-          PagesHeader(widget.userName)],
+          PagesHeader(widget.supervisor.userName)],
         backgroundColor: mainColor,),
     body: Container(
       decoration: BoxDecoration(
@@ -95,10 +94,10 @@ class _DashboardPageState extends State<DashboardPage> {
           padding: EdgeInsets.symmetric(vertical:150,horizontal: 30),
           child: Column(
             children: <Widget>[
-              Text(widget.agentName,style: TextStyle(fontSize: 15),),
+              Text(widget.supervisor.agentName,style: TextStyle(fontSize: 15),),
               Padding(
                 padding: const EdgeInsets.only(bottom:20.0),
-                child: Text(widget.busNumber,style: TextStyle(fontSize: 15),),
+                child: Text(widget.supervisor.busNumber,style: TextStyle(fontSize: 15),),
               ),
               MainButton('START TRIP',mainColor,280,startTrip),
               MainButton('BUS MEMBERS',mainColor,280,_navigateToBusMembers),

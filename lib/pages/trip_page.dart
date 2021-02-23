@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart'as http;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:toast/toast.dart';
 import 'package:usave/utilities/constants.dart';
 import 'package:usave/components/mainbutton.dart';
 import 'package:usave/components/trip_page_station.dart';
@@ -26,24 +27,26 @@ class _TripPageState extends State<TripPage> {
   List data=[];
   Box box;
   String token;
-  bool arrive=true;
-
+  bool isArrive=false;
   void _endTrip()async
   {
-    final Map<String,dynamic> authData ={"isArrive":arrive};
+    final Map<String,dynamic> authData ={"isArrive":isArrive};
     final SharedPreferences prefs=await SharedPreferences.getInstance();
     token=prefs.getString('token');
     final Map<String,String> headers ={
       "Content-Type":'application/json',
       "Authorization": 'Bearer $token',
     };
-//      final http.Response response = await http.post('$BASE_URL''trips/start',body:jsonEncode(authData),headers:headers);
-//      final Map<String,dynamic> responseData=json.decode(response.body);
-//      print('${response.body}''ssssssssssss');
-//      print('${response.statusCode}''ssssssssssss');
-//      if(response.statusCode==200)
-//      {
-//      }
+    final http.Response response = await http.post('$BASE_URL''trips/start',body:jsonEncode(authData),headers:headers);
+    final Map<String,dynamic> responseData=json.decode(response.body);
+    if(response.statusCode==200)
+    {
+      Toast.show('Trip ended successfully', context);
+    }
+    else
+    {
+      Toast.show('Could not End Trip', context);
+    }
     Navigator.pop(context);
   }
 

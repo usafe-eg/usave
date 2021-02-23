@@ -38,12 +38,12 @@ class _LoginPageState extends State<LoginPage> {
     if (responseData.containsKey('token')) {
       final SharedPreferences prefs=await SharedPreferences.getInstance();
       prefs.setString('token', responseData['token']);
-      supervisor=new Supervisor(responseData['busNumber'],responseData['username'],responseData['agentName']);
+      prefs.setInt('busId', responseData['busId']);
+      supervisor=new Supervisor(busNumber:responseData['busNumber'],userName:responseData['username'],agentName:responseData['agentName']);
       _isLoading=false;
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => DashboardPage(agentName:responseData['agentName'],
-        userName:responseData['username'],busNumber:responseData['busNumber'],)),
+        MaterialPageRoute(builder: (context) => DashboardPage(supervisor:supervisor)),
       );
 
     }
